@@ -5,6 +5,8 @@
   "version": "0.1.0",
   "author": "Kai Niklas",
   "publisher": "kainiklas",
+  "license": "MIT",
+  "icon": "composer-intellisense.png",
   "homepage": "https://github.com/kainiklas/vscode-composer-intellisense/blob/master/README.md",
   "repository": {
     "type": "git",
