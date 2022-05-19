@@ -71,8 +71,8 @@ async function getPackages(query: string) {
 			item.detail = p.description;
 
 			item.documentation = new vscode.MarkdownString()
-				.appendMarkdown(`**Downloads:** ${p.downloads}` + "\n\n")
-				.appendMarkdown(`**Favs:** ${p.favers}` + "\n\n")
+				.appendMarkdown(`**Downloads:** ${p.downloads.toLocaleString()}` + "\n\n")
+				.appendMarkdown(`**Favs:** ${p.favers.toLocaleString()}` + "\n\n")
 				.appendMarkdown(`[Packagist](${p.url}) | [Repository](${p.repository})`);
 
 			completionItems.push(item);
