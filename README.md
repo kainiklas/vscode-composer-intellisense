@@ -6,6 +6,8 @@
 
 This [Visual Studio Code](https://code.visualstudio.com/) plugin offers intellisense for the PHP dependency manager [Composer](https://getcomposer.org/). 
 
+![Autocomplete](images/autocomplete.gif)
+
 ## Features
 
 - Autocomplete dependency names based on [Packagist](https://packagist.org/)
@@ -20,6 +22,12 @@ You should have [Composer](https://getcomposer.org/) installed. But the plugin i
 - No known issues.
 
 ## Release Notes
+
+### 0.3.0
+
+**Added**
+
+- Suggests package version based on the latest 20 versions with opinionated format `"^major.minor"`
 
 ### 0.2.0
 

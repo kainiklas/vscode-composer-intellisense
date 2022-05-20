@@ -7,7 +7,7 @@ const documentSelector = {
     pattern: '**/composer.json',
 };
 
-export const completionItemProvider = vscode.languages.registerCompletionItemProvider(
+export const packageNamesCIP = vscode.languages.registerCompletionItemProvider(
     documentSelector,
     {
         provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
@@ -17,6 +17,8 @@ export const completionItemProvider = vscode.languages.registerCompletionItemPro
 
             // remove the quotes
             const packageName = document.getText(range).replace(/^"|"$/g, '');
+
+            if (packageName.length < 3) { return; }
 
             // check if selection is within require or require-dev
             const json = document.getText();

@@ -2,7 +2,7 @@
   "name": "composer-intellisense",
   "displayName": "Composer IntelliSense",
   "description": "Intellisense for composer.json, PHP dependency manager.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Kai Niklas",
   "publisher": "kainiklas",
   "license": "MIT",

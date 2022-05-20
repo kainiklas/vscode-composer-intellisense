@@ -1,12 +1,14 @@
 import * as vscode from 'vscode';
-import { completionItemProvider } from "./autocomplete";
+import { packageNamesCIP } from "./autocomplete/packageNames";
+import { packageVersionsCIP } from './autocomplete/packageVersions';
 import { decorate, clearDecorations } from './decorator';
 
 export function activate(context: vscode.ExtensionContext) {
 
 	console.log("composer-intellisense activated");
 
-	context.subscriptions.push(completionItemProvider);
+	context.subscriptions.push(packageNamesCIP);
+	context.subscriptions.push(packageVersionsCIP);
 
 	vscode.workspace.onDidOpenTextDocument(() => {
 		const openEditor = vscode.window.visibleTextEditors.filter(
