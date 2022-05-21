@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { packageNamesCIP } from "./autocomplete/packageNames";
 import { packageVersionsCIP } from './autocomplete/packageVersions';
-import { decorate, clearDecorations } from './decorator';
+import { decorate, clearDecorations } from './decorator/decorator';
 
 export function activate(context: vscode.ExtensionContext) {
 
