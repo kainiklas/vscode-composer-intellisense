@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
-import { version } from 'os';
 
 const documentSelector = {
     scheme: 'file',

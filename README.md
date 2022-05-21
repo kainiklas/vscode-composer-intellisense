@@ -12,6 +12,11 @@ This [Visual Studio Code](https://code.visualstudio.com/) plugin offers intellis
 
 - Autocomplete dependency names based on [Packagist](https://packagist.org/)
 - Display currently installed package version next to package entry
+- Hover over package names to get insights about the installed package
+
+## Planned Features
+
+- Command to install / update dependencies inline
 
 ## Requirements
 
@@ -22,6 +27,12 @@ You should have [Composer](https://getcomposer.org/) installed. But the plugin i
 - No known issues.
 
 ## Release Notes
+
+### 0.4.0
+
+**Added**
+
+- Hover over package names to get insights about the installed package
 
 ### 0.3.0
 

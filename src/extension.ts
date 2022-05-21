@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { packageNamesCIP } from "./autocomplete/packageNames";
 import { packageVersionsCIP } from './autocomplete/packageVersions';
 import { decorate, clearDecorations } from './decorator/decorator';
+import { packageHoverProvider } from './hover/hover';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -9,6 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(packageNamesCIP);
 	context.subscriptions.push(packageVersionsCIP);
+	context.subscriptions.push(packageHoverProvider);
 
 	vscode.workspace.onDidOpenTextDocument(() => {
 		const openEditor = vscode.window.visibleTextEditors.filter(

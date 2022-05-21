@@ -1,8 +1,6 @@
 import * as vscode from 'vscode';
-
-const decorationType = vscode.window.createTextEditorDecorationType({
-    color: 'grey',
-});
+import { getInstalledPackage } from '../provider/packageProvider';
+import { decorationType } from '../types/types';
 
 export async function decorate(editor: vscode.TextEditor) {
     let sourceCode = editor.document.getText();
@@ -18,8 +16,8 @@ export async function decorate(editor: vscode.TextEditor) {
     for (const packageName of packageNames) {
         let lines = getLines(editor.document, packageName);
         for (const line of lines) {
-            let message = await getMessage(editor.document, packageName);
-            decorations.push(decoration(message, line));
+            let pkg = await getInstalledPackage(editor.document, packageName);
+            decorations.push(decoration(pkg.version, line));
         }
     };
 
@@ -54,22 +52,6 @@ const decoration = (text: string, line: number) => ({
         },
     },
 });
-
-async function getMessage(document: vscode.TextDocument, packageName: string) {
-    const path = `${document.fileName.replace('composer.json', '')}vendor/composer/installed.json`;
-    const uri = vscode.Uri.file(path);
-
-    const fileContent = await vscode.workspace.fs.readFile(uri);
-    const json = JSON.parse(fileContent.toString());
-    const packages = json.packages || json;
-    const pkg = packages.find((p: any) => p.name === packageName);
-
-    if (pkg) {
-        return pkg.version;
-    }
-
-    return 'n/a';
-}
 
 export function clearDecorations() {
     vscode.window.visibleTextEditors.forEach(textEditor => {
