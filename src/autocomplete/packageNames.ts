@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import axios from 'axios';
+import * as PackageProvider from '../provider/packageProvider';
 
 const documentSelector = {
     scheme: 'file',
@@ -34,49 +34,23 @@ export const packageNamesCIP = vscode.languages.registerCompletionItemProvider(
 
 async function getPackages(query: string) {
 
-    type Package = {
-        name: string,
-        description: string,
-        url: string,
-        repository: string,
-        downloads: number,
-        favers: number,
-    };
-
-    type GetPackageResponse = {
-        results: Package[];
-    };
-
     let completionItems: Array<vscode.CompletionItem> = [];
+    
+    let packages = await PackageProvider.getPackageNames(query);
 
-    try {
-        const { data } = await axios.get<GetPackageResponse>(
-            'https://packagist.org/search.json?q=' + query,
-            {
-                headers: {
-                    "Accept": 'application/json',
-                    "User-Agent": 'vscode-composer-intellisense'
-                }
-            },
-        );
+    packages.forEach((p) => {
+        let item = new vscode.CompletionItem('"' + p.name + '"');
+        item.detail = p.description;
 
-        data.results.forEach((p) => {
-            let item = new vscode.CompletionItem('"' + p.name + '"');
-            item.detail = p.description;
+        item.documentation = new vscode.MarkdownString()
+            .appendMarkdown(`**Downloads:** ${p.downloads.toLocaleString()}` + "\n\n")
+            .appendMarkdown(`**Favs:** ${p.favers.toLocaleString()}` + "\n\n")
+            .appendMarkdown(`[Packagist](${p.url}) | [Repository](${p.repository})`);
 
-            item.documentation = new vscode.MarkdownString()
-                .appendMarkdown(`**Downloads:** ${p.downloads.toLocaleString()}` + "\n\n")
-                .appendMarkdown(`**Favs:** ${p.favers.toLocaleString()}` + "\n\n")
-                .appendMarkdown(`[Packagist](${p.url}) | [Repository](${p.repository})`);
+        item.insertText = new vscode.SnippetString(`"${p.name}"` + ' : "${1}"');
 
-            item.insertText = new vscode.SnippetString(`"${p.name}"` + ' : "${1}"');
-
-            completionItems.push(item);
-        });
-
-    } catch (error) {
-        console.error(error);
-    }
+        completionItems.push(item);
+    });
 
     return completionItems;
 }

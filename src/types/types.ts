@@ -1,11 +1,5 @@
 import * as vscode from 'vscode';
 
-export const documentSelector = {
-    scheme: 'file',
-    language: 'json',
-    pattern: '**/composer.json',
-};
-
 export type InstalledPackage = {
     name: string,
     source: {
@@ -13,6 +7,27 @@ export type InstalledPackage = {
     },
     description: string,
     version: string
+};
+
+export type Package = {
+    name: string,
+    description: string,
+    url: string,
+    repository: string,
+    downloads: number,
+    favers: number,
+};
+
+export type PackageResponse = {
+    results: Package[];
+};
+
+
+
+export const documentSelector = {
+    scheme: 'file',
+    language: 'json',
+    pattern: '**/composer.json',
 };
 
 export const decorationType = vscode.window.createTextEditorDecorationType({
