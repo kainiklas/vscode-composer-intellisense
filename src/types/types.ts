@@ -6,7 +6,8 @@ export type InstalledPackage = {
         url: string
     },
     description: string,
-    version: string
+    version: string,
+    version_normalized: string
 };
 
 export type Package = {

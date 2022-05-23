@@ -17,7 +17,14 @@ export async function decorate(editor: vscode.TextEditor) {
         let lines = getLines(editor.document, packageName);
         for (const line of lines) {
             let pkg = await getInstalledPackage(editor.document, packageName);
-            decorations.push(decoration(pkg.version, line));
+            let version = 'n/a';
+
+            if(pkg?.version_normalized) {
+                const v = pkg?.version_normalized.split('.');
+                version = `v${v[0]}.${v[1]}.${v[2]}`;
+            }
+
+            decorations.push(decoration(version, line));
         }
     };
 
