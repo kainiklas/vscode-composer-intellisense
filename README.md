@@ -11,8 +11,9 @@ This [Visual Studio Code](https://code.visualstudio.com/) plugin offers intellis
 ## Features
 
 - Autocomplete dependency names based on [Packagist](https://packagist.org/)
-- Display currently installed package version next to package entry
+- Display currently installed package version next to package entry (on document save)
 - Hover over package names to get insights about the installed package
+- Hover over package names to get the latest available package versions
 
 ## Planned Features
 
