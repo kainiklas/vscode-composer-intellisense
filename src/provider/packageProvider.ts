@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import axios from 'axios';
 import * as types from '../types/types';
 
 export async function getInstalledPackage(document: vscode.TextDocument, packageName: string): Promise<types.InstalledPackage> {
@@ -13,25 +12,3 @@ export async function getInstalledPackage(document: vscode.TextDocument, package
 
     return pkg;
 };
-
-export async function getPackageNames(query: string): Promise<types.Package[]> {
-    let packages: types.Package[] = [];
-
-    try {
-        const { data } = await axios.get<types.PackageResponse>(
-            'https://packagist.org/search.json?q=' + query,
-            {
-                headers: {
-                    "Accept": 'application/json',
-                    "User-Agent": 'vscode-composer-intellisense'
-                }
-            },
-        );
-
-        packages = data.results;
-    } catch (error) {
-        console.log(error);
-    }
-
-    return packages;
-}

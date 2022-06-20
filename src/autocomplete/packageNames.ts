@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import * as PackageProvider from '../provider/packageProvider';
+import * as PackagistProvider from '../provider/packagistProvider';
 
 const documentSelector = {
     scheme: 'file',
@@ -36,7 +36,7 @@ async function getPackages(query: string) {
 
     let completionItems: Array<vscode.CompletionItem> = [];
     
-    let packages = await PackageProvider.getPackageNames(query);
+    let packages = await PackagistProvider.getPackageNames(query);
 
     packages.forEach((p) => {
         let item = new vscode.CompletionItem('"' + p.name + '"');

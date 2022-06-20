@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { getInstalledPackage } from '../provider/packageProvider';
-import { decorationType } from '../types/types';
+import * as globals from '../util/globals';
 
 export async function decorate(editor: vscode.TextEditor) {
     let sourceCode = editor.document.getText();
@@ -28,7 +28,7 @@ export async function decorate(editor: vscode.TextEditor) {
         }
     };
 
-    editor.setDecorations(decorationType, decorations);
+    editor.setDecorations(globals.decorationType, decorations);
 }
 
 function getLines(document: vscode.TextDocument, packageName: string): number[] {
@@ -62,6 +62,6 @@ const decoration = (text: string, line: number) => ({
 
 export function clearDecorations() {
     vscode.window.visibleTextEditors.forEach(textEditor => {
-        textEditor.setDecorations(decorationType, []);
+        textEditor.setDecorations(globals.decorationType, []);
     });
 }

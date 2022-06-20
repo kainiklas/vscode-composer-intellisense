@@ -2,7 +2,7 @@
   "name": "composer-intellisense",
   "displayName": "Composer IntelliSense",
   "description": "Intellisense for composer.json, PHP dependency manager.",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "author": "Kai Niklas",
   "publisher": "kainiklas",
   "license": "MIT",
@@ -32,7 +32,21 @@
     "onLanguage:json"
   ],
   "main": "./out/extension.js",
-  "contributes": {},
+  "contributes": {
+    "configuration": [
+      {
+        "title": "Composer Intellisense",
+        "properties": {
+          "composerIntellisense.packagistCache": {
+            "type": "integer",
+            "default": 1200,
+            "minimum": 60,
+            "description": "Specifies how long requests to packagist are cached [seconds]"
+          }
+        }
+      }
+    ]
+  },
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
@@ -55,6 +69,7 @@
     "typescript": "^4.6.4"
   },
   "dependencies": {
-    "axios": "^0.27.2"
+    "axios": "^0.27.2",
+    "vscode-cache": "^0.3.0"
   }
 }

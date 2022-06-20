@@ -28,6 +28,13 @@ You should have [Composer](https://getcomposer.org/) installed. But the plugin i
 
 ## Release Notes
 
+### 0.5.0
+
+**Added**
+
+- Hover over package names includes latest versions of package
+- Cache for packagist API calls
+
 ### 0.4.0
 
 **Added**
