@@ -59,7 +59,7 @@ export async function getAllPackageVersions(packageName: string): Promise<string
         );
 
         const entries = Object.entries(data.packages)[0][1];
-        const maxEntries = Math.min(entries.length, 20);
+        const maxEntries = Math.min(entries.length, 40);
         entries.slice(0, maxEntries).forEach((p) => {
             versions.push(p.version_normalized);
         });

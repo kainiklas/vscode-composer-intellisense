@@ -29,6 +29,12 @@ You should have [Composer](https://getcomposer.org/) installed. But the plugin i
 
 ## Release Notes
 
+### 0.6.0
+
+**Fixed**
+
+- Extension behaviour adapted to work properly with latest version of VSCode
+
 ### 0.5.0
 
 **Added**

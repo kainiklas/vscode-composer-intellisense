@@ -9,7 +9,7 @@ export const packageHoverProvider = vscode.languages.registerHoverProvider(
     {
         async provideHover(document: vscode.TextDocument, position: vscode.Position) {
             // the range selects all including quotes
-            const range = document.getWordRangeAtPosition(position);
+            const range = document.getWordRangeAtPosition(position, /"(.*?)"/);
 
             // remove the quotes
             const packageName = document.getText(range).replace(/^"|"$/g, '');
@@ -29,13 +29,18 @@ export const packageHoverProvider = vscode.languages.registerHoverProvider(
 );
 
 const getMarkdownString = async function (pkg: types.InstalledPackage): Promise<vscode.MarkdownString> {
+
+    if (pkg === undefined) {
+        return new vscode.MarkdownString('Not installed yet.');
+    }
+
     const sourceUrl = pkg.source.url;
     const sourceText = sourceUrl.includes('github.com') ? 'GitHub' : 'Source';
     const sourceHref = sourceUrl.replace(/\.git$/, '');
 
     // get latest versions
     const versions = await PackagistProvider.getAllPackageVersions(pkg.name);
-    const versionsMD = versions.slice(0,5).map(i => "- " + i.replaceAll('"', '')).join(' \n\n');
+    const versionsMD = versions.slice(0, 5).map(i => "- " + i.replaceAll('"', '')).join(' \n\n');
 
     return new vscode.MarkdownString()
         .appendMarkdown(pkg.description + "\n\n")
