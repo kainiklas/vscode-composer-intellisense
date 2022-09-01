@@ -1,8 +1,12 @@
 import * as vscode from 'vscode';
 import { getInstalledPackage } from '../provider/packageProvider';
+import { getLatestPackage } from '../provider/packagistProvider';
 import * as globals from '../util/globals';
 
 export async function decorate(editor: vscode.TextEditor) {
+
+    const NA = 'n/a';
+
     let sourceCode = editor.document.getText();
     let json = JSON.parse(sourceCode);
 
@@ -16,15 +20,35 @@ export async function decorate(editor: vscode.TextEditor) {
     for (const packageName of packageNames) {
         let lines = getLines(editor.document, packageName);
         for (const line of lines) {
-            let pkg = await getInstalledPackage(editor.document, packageName);
-            let version = 'n/a';
 
-            if(pkg?.version_normalized) {
-                const v = pkg?.version_normalized.split('.');
-                version = `v${v[0]}.${v[1]}.${v[2]}`;
+            let decorationText = '';
+
+            let installedPackage = await getInstalledPackage(editor.document, packageName);
+            let latestPackage = await getLatestPackage(packageName);
+
+            let installedVersion = NA;
+            let latestVersion = NA;
+
+            if (installedPackage?.version_normalized) {
+                const v = installedPackage?.version_normalized.split('.');
+                installedVersion = `${v[0]}.${v[1]}.${v[2]}`;
             }
 
-            decorations.push(decoration(version, line));
+            if (latestPackage?.version_normalized) {
+                const v = latestPackage?.version_normalized.split('.');
+                latestVersion = `${v[0]}.${v[1]}.${v[2]}`;
+            }
+
+            if (installedVersion === latestVersion && installedVersion !== NA) {
+                decorationText = installedVersion + ' (latest)';
+            } else if (installedVersion === NA && latestVersion === NA) {
+                decorationText = NA;
+            }
+            else {
+                decorationText = installedVersion + " -> " + latestVersion;
+            }
+
+            decorations.push(decoration(decorationText, line));
         }
     };
 

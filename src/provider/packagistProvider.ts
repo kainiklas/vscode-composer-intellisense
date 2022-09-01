@@ -27,28 +27,50 @@ export async function getPackageVersions(packageName: string): Promise<string[]>
     return versionsArray;
 }
 
+export async function getLatestPackage(packageName: string): Promise<types.P2Package> {
+
+    const entries = await getPackageEntries(packageName);
+    return entries[0];
+}
+
 export async function getAllPackageVersions(packageName: string): Promise<string[]> {
-    type Package = {
-        name: string,
-        description: string,
-        version: string,
-        version_normalized: string,
-    };
+
+    let versions: Array<string> = [];
+
+    const entries = await getPackageEntries(packageName);
+    const maxEntries = Math.min(entries.length, 40);
+
+    entries.slice(0, maxEntries).forEach((p) => {
+        versions.push(p.version_normalized);
+    });
+
+    return versions;
+}
+
+
+/**
+ * Executes the webservice call to packagist
+ * https://repo.packagist.org/p2/[vendor]/[package].json
+ *
+ * @param packageName 
+ * @returns array of P2Packages from packagist
+ */
+async function getPackageEntries(packageName: string): Promise<types.P2Package[]> {
 
     type GetPackageResponse = {
         packages: [
-            Package[]
+            types.P2Package[]
         ];
     };
 
-    let versions: Array<string> = new Array();
-
-    let cache = new CACHE(globals.extensionContext, 'versions');
+    let cache = new CACHE(globals.extensionContext, 'p2packages');
 
     // return the cached item
     if (cache.has(packageName)) {
         return cache.get(packageName);
     }
+
+    let entries: types.P2Package[] = [];
 
     try {
         const { data } = await axios.get<GetPackageResponse>(
@@ -58,23 +80,27 @@ export async function getAllPackageVersions(packageName: string): Promise<string
             },
         );
 
-        const entries = Object.entries(data.packages)[0][1];
-        const maxEntries = Math.min(entries.length, 40);
-        entries.slice(0, maxEntries).forEach((p) => {
-            versions.push(p.version_normalized);
-        });
-
-        // cache the versions for 1h
-        let cacheTimeout = vscode.workspace.getConfiguration('composerIntellisense').get('packagistCache');
-        cache.put(packageName, versions, cacheTimeout);
+        entries = Object.entries(data.packages)[0][1];
 
     } catch (error) {
         console.error(error);
+    } finally {
+        // cache the versions
+        let cacheTimeout = vscode.workspace.getConfiguration('composerIntellisense').get('packagistCache');
+        cache.put(packageName, entries, cacheTimeout);
     }
 
-    return versions;
+    return entries;
 }
 
+/**
+ * /**
+ * Executes the webservice call to packagist
+ * https://packagist.org/search.json?q=[query]
+ *
+ * @param query (the package name)
+ * @returns array of packages
+ */
 export async function getPackageNames(query: string): Promise<types.Package[]> {
     let packages: types.Package[] = [];
 

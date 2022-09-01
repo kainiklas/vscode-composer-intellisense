@@ -22,32 +22,27 @@ export const packageHoverProvider = vscode.languages.registerHoverProvider(
             if (!isInsideDependencies) { return; }
 
             const installedPackage = await getInstalledPackage(document, packageName);
-            const markDown = await getMarkdownString(installedPackage);
+            const latestPackage = await PackagistProvider.getLatestPackage(packageName);
+            const markDown = await getMarkdownStringNew(latestPackage, installedPackage);
+
             return new vscode.Hover(markDown);
         }
     }
 );
 
-const getMarkdownString = async function (pkg: types.InstalledPackage): Promise<vscode.MarkdownString> {
+const getMarkdownStringNew = async function (latestPackage: types.P2Package, installedPackage: types.InstalledPackage): Promise<vscode.MarkdownString> {
 
-    if (pkg === undefined) {
-        return new vscode.MarkdownString('Not installed yet.');
+    let installedVersion = "n/a";
+    if (installedPackage !== undefined) {
+       installedVersion = installedPackage.version;
     }
-
-    const sourceUrl = pkg.source.url;
-    const sourceText = sourceUrl.includes('github.com') ? 'GitHub' : 'Source';
-    const sourceHref = sourceUrl.replace(/\.git$/, '');
-
-    // get latest versions
-    const versions = await PackagistProvider.getAllPackageVersions(pkg.name);
-    const versionsMD = versions.slice(0, 5).map(i => "- " + i.replaceAll('"', '')).join(' \n\n');
-
+    
     return new vscode.MarkdownString()
-        .appendMarkdown(pkg.description + "\n\n")
-        .appendMarkdown(`Installed version: ${pkg.version}` + "\n\n")
-        .appendMarkdown(`[Packagist](https://packagist.org/packages/${pkg.name})`)
+        .appendMarkdown("**" + latestPackage.name + "** \n\n")
+        .appendMarkdown(latestPackage.description + "\n\n")
+        .appendMarkdown(`Latest version: ${latestPackage.version}` + "\n\n")
+        .appendMarkdown(`Installed version: ${installedVersion}` + "\n\n")
+        .appendMarkdown(`[Packagist](https://packagist.org/packages/${latestPackage.name})`)
         .appendText(' | ')
-        .appendMarkdown(`[${sourceText}](${sourceHref})` + "\n\n")
-        .appendMarkdown(`Latest Versions:` + "\n\n")
-        .appendMarkdown(versionsMD);
+        .appendMarkdown(`[${latestPackage.source.type}](${latestPackage.source.url})` + "\n\n");
 };

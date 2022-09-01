@@ -20,3 +20,15 @@ export type Package = {
 export type PackageResponse = {
     results: Package[];
 };
+
+export type P2Package = {
+    name: string,
+    description: string,
+    version: string,
+    version_normalized: string,
+    homepage: string,
+    source: {
+        url : string,
+        type : string
+    }
+};
