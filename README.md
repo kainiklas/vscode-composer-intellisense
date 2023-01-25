@@ -1,8 +1,9 @@
 # VSCode Composer Intellisense
 
-[![Current Version](https://vsmarketplacebadge.apphb.com/version/kainiklas.composer-intellisense.svg)](https://marketplace.visualstudio.com/items?itemName=kainiklas.composer-intellisense)
-[![Install Count](https://vsmarketplacebadge.apphb.com/installs/kainiklas.composer-intellisense.svg)](https://marketplace.visualstudio.com/items?itemName=kainiklas.composer-intellisense)
-[![Ratings](https://vsmarketplacebadge.apphb.com/rating/kainiklas.composer-intellisense.svg)](https://marketplace.visualstudio.com/items?itemName=kainiklas.composer-intellisense)
+[![Install Count](https://img.shields.io/visual-studio-marketplace/i/kainiklas.composer-intellisense)](https://marketplace.visualstudio.com/items?itemName=kainiklas.composer-intellisense)
+[![Ratings](https://img.shields.io/visual-studio-marketplace/r/kainiklas.composer-intellisense)](https://marketplace.visualstudio.com/items?itemName=kainiklas.composer-intellisense)
+[![Current Version](https://img.shields.io/visual-studio-marketplace/v/kainiklas.composer-intellisense)](https://marketplace.visualstudio.com/items?itemName=kainiklas.composer-intellisense)
+[![Ratings](https://img.shields.io/visual-studio-marketplace/last-updated/kainiklas.composer-intellisense)](https://marketplace.visualstudio.com/items?itemName=kainiklas.composer-intellisense)
 
 This [Visual Studio Code](https://code.visualstudio.com/) plugin offers intellisense for the PHP dependency manager [Composer](https://getcomposer.org/). 
 
